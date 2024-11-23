@@ -1,0 +1,23 @@
+{
+  "name": "shopee",
+  "version": "1.0.0",
+  "description": "automation testing shopee using ui with cypress",
+  "main": "index.js",
+  "author": "nmp54",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^13.16.0",
+    "prettier": "^3.3.3"
+  },
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run",
+    "postinstall": "cypress install"
+  },
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.1.2",
+    "@cypress/browserify-preprocessor": "^3.0.2",
+    "mailslurp": "^0.0.1-security",
+    "mailslurp-client": "^15.13.3"
+  }
+}
