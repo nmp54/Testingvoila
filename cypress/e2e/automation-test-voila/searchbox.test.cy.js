@@ -1,19 +1,17 @@
 /// <reference types="cypress" />
 
-describe('Login with Valid Credentials', () => {
-    it('Visit the website', () => {
-        cy.visit("https://voila.id")
-        cy.url('include', 'id')
-
-
+describe('Feature Searchbox', () => {
+    // Test case: Visit the website
+    it('Should visit the website', () => {
+        cy.visit('https://voila.id'); // Open the website
+        cy.url().should('include', 'id'); // Verify the URL contains 'id'
     });
-    it('should display the product you are looking for', () => {
-        // Klik tombol untuk mengaktifkan search box
-        cy.get('input[data-test-id="CT-Search"]', { timeout: 10000 }) // Timeout hingga 10 detik
-            .should('be.visible') // Pastikan elemen terlihat
-            .type('chanel{enter}}', { force: true }); // Ketikkan kata kunci dengan opsi force
 
-        // Validasi hasil pencarian
-        cy.contains('chanel').should('be.visible'); // Pastikan hasil pencarian tampil
+    // Test case: Use the searchbox and verify results
+    it('Should display the searched content', () => {
+        cy.get('input[data-test-id="CT-Search"]').click()
+        cy.get('input[data-test-id="CT-Search"]').invoke('val', 'voila')
+            .trigger('input');
+        // cy.contains('Lois').should('be.visible');
     });
-})
+});

@@ -15,20 +15,13 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-const { MailSlurp } = require('mailslurp-client');
-// set your api key with an environment variable `CYPRESS_API_KEY` or configure using `env` property in config file
-// (cypress prefixes environment variables with CYPRESS)
-const apiKey = Cypress.env('API_KEY')
-const mailslurp = new MailSlurp({ apiKey });
-
-Cypress.Commands.add("createInbox", () => {
-    return mailslurp.createInbox();
-});
-
-Cypress.Commands.add("waitForLatestEmail", (inboxId) => {
-    // how long we should hold connection waiting for an email to arrive
-    const timeoutMillis = 30_000;
-    return mailslurp.waitForLatestEmail(inboxId, timeoutMillis)
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // Ignore specific errors from the app
+    if (err.message.includes('CustomElementRegistry')) {
+        return false; // Prevent Cypress from failing the test
+    }
+    // Let other errors fail the test
+    return true;
 });
 
 // Alternatively you can use CommonJS syntax:

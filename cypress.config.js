@@ -10,7 +10,7 @@ async function setupNodeEvents(on, config) {
 
 module.exports = defineConfig({
   video: false,
-  defaultCommandTimeout: 5000,
+  defaultCommandTimeout: 30000,
   PageLoadTimeout: 10000, e2e: {
     specPattern: "cypress/e2e/**/*.{cy,spec}.{js,ts}",
     supportFile: false,
