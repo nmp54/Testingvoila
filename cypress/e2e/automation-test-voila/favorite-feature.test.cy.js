@@ -1,15 +1,14 @@
 /// <reference types="cypress" />
 
-describe('Feature Favorite', () => {
+describe('Login with Valid Credentials', () => {
     // Test case: Visit the website
-    it('Should visit the website and navigate to login', () => {
-        cy.visit('https://voila.id'); // Open the website
-        cy.url().should('include', 'id'); // Verify the URL contains 'id'
-        cy.contains('Sign In').click(); // Click the 'Sign In' button
+    it('Should visit the website and navigate to the login page', () => {
+        cy.visit('https://voila.id/account/login'); // Open the website
+        cy.url().should('include', 'account/login'); // Verify the URL contains 'id
     });
-
     // Test case: Login with valid credentials
     it('Should log in with valid credentials', () => {
+        // Use data from the fixture file
         cy.fixture('user').then(({ email, password }) => {
             // Enter email
             cy.get('input[data-test-id="CT_component_login_input"]')
@@ -25,8 +24,11 @@ describe('Feature Favorite', () => {
             cy.get('button[data-test-id="CT_component_login_submit"]').click();
         });
     });
-
     // Test case: Open a product page
+    it('harus klik notifikasi', () => {
+        cy.wait(3000)
+        cy.get('#optInText').click;
+    });
     it('Should navigate to the product page', () => {
         // Ensure the product link or title is visible
         cy.get('.ellipsis-two-lines').click();
