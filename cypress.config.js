@@ -9,15 +9,17 @@ async function setupNodeEvents(on, config) {
 }
 
 module.exports = defineConfig({
-  video: false,
-  defaultCommandTimeout: 30000,
-  PageLoadTimeout: 10000, e2e: {
+  e2e: {
+    baseUrl: 'https://voila.id',
     specPattern: "cypress/e2e/**/*.{cy,spec}.{js,ts}",
     supportFile: false,
     setupNodeEvents,
-    testIsolation: false,
+    testIsolation: false, // Disable test isolation if needed
     watchForFileChanges: false,
-    chromeWebSecurity: false,
-    blockHosts: ["https://events.backtrace.io, https://submit.backtrace.io"],
+    chromeWebSecurity: false, // Disable cross-origin restrictions
+    blockHosts: ["events.backtrace.io", "submit.backtrace.io"], // Fixed blockHosts syntax
   },
+  video: false,
+  defaultCommandTimeout: 30000, // Timeout for all commands
+  pageLoadTimeout: 30000, // Fixed property capitalization
 });

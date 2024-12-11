@@ -23,4 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import 'cypress-iframe';
+// Load iframe
+cy.frameLoaded('iframe[data-tagging-id="G-ZRDNKN9Z6"]');
 
+// Cek apakah popup ada dalam iframe
+cy.iframe().find('CLOSE').then(($popup) => {
+    if ($popup.length > 0) {
+        // Tutup popup jika ditemukan
+        cy.iframe().find('CLOSE').click();
+    }
+});

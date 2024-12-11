@@ -15,14 +15,12 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-Cypress.on('uncaught:exception', (err, runnable) => {
-    // Ignore specific errors from the app
-    if (err.message.includes('CustomElementRegistry')) {
-        return false; // Prevent Cypress from failing the test
+Cypress.on('uncaught:exception', (err) => {
+    if (err.message.includes('lora-cart-integration')) {
+        return false; // Abaikan error ini
     }
-    // Let other errors fail the test
-    return true;
 });
+
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
