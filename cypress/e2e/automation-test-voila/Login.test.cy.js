@@ -1,64 +1,67 @@
 /// <reference types="cypress" />
 
-describe('Login with incorrect password', () => {
-    it('Should visit the website and navigate to Sign In page', () => {
-        cy.visit('https://voila.id');
-        cy.url().should('include', 'voila.id'); // Memastikan URL yang dikunjungi benar
-        cy.contains('Sign In').should('be.visible').click(); // Pastikan tombol Sign In terlihat dan klik
-    });
+describe('Login Tests', () => {
+    describe('Login with Incorrect Password', () => {
+        it('Should visit the website and navigate to the Sign In page', () => {
+            // Membuka halaman utama dan memastikan navigasi ke halaman login berhasil
+            cy.visit('https://voila.id');
+            cy.url().should('include', 'voila.id'); // Memastikan URL yang dikunjungi benar
+            cy.contains('Sign In').should('be.visible').click(); // Klik tombol Sign In
+        });
 
-    it('Should display error message when logging in with invalid credentials', () => {
-        cy.fixture('user').then((user) => {
-            const email = user.email; // Email valid dari fixture
-            const password = user.password_invalid; // Password invalid dari fixture
+        it('Should display error message when logging in with invalid credentials', () => {
+            // Menggunakan data dari fixture
+            cy.fixture('user').then(({ email, password_invalid }) => {
+                // Input email
+                cy.get('input[data-test-id="CT_component_login_input"]')
+                    .should('be.visible') // Memastikan elemen input email terlihat
+                    .clear()
+                    .type(email);
 
-            // Input email
-            cy.get('input[data-test-id="CT_component_login_input"]')
-                .should('be.visible') // Pastikan elemen terlihat
-                .clear()
-                .type(email);
+                // Input password yang salah
+                cy.get('input[name="password"]')
+                    .should('be.visible')
+                    .clear()
+                    .type(password_invalid);
 
-            // Input password
-            cy.get('input[name="password"]')
-                .should('be.visible')
-                .clear()
-                .type(password);
+                // Klik tombol login
+                cy.get('button[data-test-id="CT_component_login_submit"]')
+                    .should('be.visible')
+                    .click();
 
-            // Klik tombol login
-            cy.get('button[data-test-id="CT_component_login_submit"]')
-                .should('be.visible')
-                .click();
-
-            // Verifikasi error message
-            cy.contains('Your account ID or password is incorrect. Please try again.')
-                .should('be.visible');
+                // Verifikasi pesan error
+                cy.contains('Your account ID or password is incorrect. Please try again.')
+                    .should('be.visible');
+            });
         });
     });
-});
-describe('Login with Valid Credentials', () => {
-    // Test case: Visit the website
-    it('Should visit the website and navigate to the login page', () => {
-        cy.visit('https://voila.id'); // Open the website
-        cy.url().should('include', 'id'); // Verify the URL contains 'id'
-        cy.contains('Sign In').click(); // Click the 'Sign In' button
-    });
 
-    // Test case: Login with valid credentials
-    it('Should log in with valid credentials', () => {
-        // Use data from the fixture file
-        cy.fixture('user').then(({ email, password }) => {
-            // Enter email
-            cy.get('input[data-test-id="CT_component_login_input"]')
-                .clear()
-                .type(email);
+    describe('Login with Valid Credentials', () => {
+        it('Should visit the website and navigate to the Sign In page', () => {
+            // Membuka halaman utama dan memastikan navigasi ke halaman login berhasil
+            cy.visit('https://voila.id');
+            cy.url().should('include', 'id'); // Memastikan URL yang dikunjungi benar
+            cy.contains('Sign In').should('be.visible').click(); // Klik tombol Sign In
+        });
 
-            // Enter password
-            cy.get('input[name="password"]')
-                .clear()
-                .type(password);
+        it('Should log in with valid credentials', () => {
+            // Menggunakan data dari fixture
+            cy.fixture('user').then(({ email, password }) => {
+                // Input email
+                cy.get('input[data-test-id="CT_component_login_input"]')
+                    .should('be.visible') // Memastikan elemen input email terlihat
+                    .clear()
+                    .type(email);
 
-            // Submit the login form
-            cy.get('button[data-test-id="CT_component_login_submit"]').click();
+                // Input password
+                cy.get('input[name="password"]')
+                    .should('be.visible')
+                    .clear()
+                    .type(password);
+
+                // Klik tombol login
+                cy.get('button[data-test-id="CT_component_login_submit"]').click();
+            });
         });
     });
 });
