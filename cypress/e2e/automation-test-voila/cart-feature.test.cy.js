@@ -70,7 +70,7 @@ describe('Login and Product Interaction Tests', () => {
         cy.contains('Shopping Bag').should('be.visible');
 
         // Klik tombol untuk menambah jumlah produk
-        cy.get('path[d="M21 10.91h-7.5V3.5h-3v7.41H3v3h7.5v7.59h3v-7.59H21v-3Z"]').click({ force: true });
+        cy.get('path[d="M21 10.91h-7.5V3.5h-3v7.41H3v3h7.5v7.59h3v-7.59H21v-3Z"]').click({ multiple: true, force: true });
     });
 
     // Pengujian untuk menambahkan voucher ke pembayaran dan melanjutkan ke checkout
@@ -80,9 +80,9 @@ describe('Login and Product Interaction Tests', () => {
 
         // Menampilkan dan memilih voucher
         cy.contains('Voucher').should('be.visible');
-        cy.contains('See available vouchers').click();
+        cy.get('path[d="M9.06 3.44 6.94 5.56l6.94 6.94-6.94 6.94 2.12 2.12 9.06-9.06-9.06-9.06Z"]').click();
         cy.contains('Special Offers for You').should('be.visible');
-        cy.contains('Mayapada YES: 5% OFF with CC Mayapada').click({ force: true });
+        cy.contains('Mayapada YES: 5% OFF with CC Mayapada').click({ multiple: true, force: true });
 
         // Terapkan voucher
         cy.get('button[data-test-id="CT_Component_buttonApply"]').click();

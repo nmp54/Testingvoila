@@ -21,6 +21,14 @@ Cypress.on('uncaught:exception', (err) => {
     }
 });
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+    if (err.message.includes('React error #418')) {
+        // Abaikan error ini dan lanjutkan tes
+        return false;
+    }
+    // Biarkan error lain menghentikan tes
+});
+
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
