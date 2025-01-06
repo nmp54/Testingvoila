@@ -33,6 +33,7 @@ describe('Login Tests', () => {
     describe('Login with Invalid Email Format', () => {
         it('Should visit the website and navigate to the Sign In page', () => {
             cy.visit('https://voila.id');
+            cy.wait(500)
             cy.url().should('include', 'id'); // Memastikan URL yang dikunjungi mengandung 'id'
             cy.contains('Sign In')
                 .should('be.visible') // Memastikan tombol Sign In terlihat
@@ -58,6 +59,7 @@ describe('Login Tests', () => {
     // Test for Login with Incorrect Password
     describe('Login with Incorrect Password', () => {
         it('Should visit the website and navigate to the Sign In page', () => {
+            cy.wait(500)
             cy.visit('https://voila.id');
             cy.url().should('include', 'voila.id'); // Memastikan URL yang dikunjungi benar
             cy.contains('Sign In').should('be.visible').click(); // Klik tombol Sign In
@@ -88,6 +90,7 @@ describe('Login Tests', () => {
     // Test for Login with Valid Credentials
     describe('Login with Valid Credentials', () => {
         it('Should visit the website and navigate to the Sign In page', () => {
+            cy.wait(500)
             cy.visit('https://voila.id');
             cy.url().should('include', 'id'); // Memastikan URL yang dikunjungi benar
             cy.contains('Sign In').should('be.visible').click(); // Klik tombol Sign In

@@ -1,10 +1,9 @@
 /// <reference types="cypress" />
 
 describe('Login and Product Interaction Tests', () => {
-    // Sebelum setiap pengujian, buka halaman utama dengan pengaturan tambahan untuk menangani error spesifik
     beforeEach(() => {
-        // Mengunjungi halaman utama dengan pengaturan waktu tunggu dan penanganan kegagalan status
-        cy.visit('https://voila.id', { failOnStatusCode: false, timeout: 60000 });
+        // Mengunjungi halaman utama dengan pengaturan waktu tunggu dan penanganan error spesifik
+        cy.visit('https://voila.id', { timeout: 60000 });
 
         // Menangani error spesifik untuk mencegah pengujian gagal
         Cypress.on('uncaught:exception', (err) => {
@@ -15,95 +14,84 @@ describe('Login and Product Interaction Tests', () => {
         });
     });
 
-    // Pengujian untuk login menggunakan kredensial yang valid
+    // Pengujian login menggunakan kredensial valid
     it('Should log in with valid credentials', () => {
-        // Navigasi ke halaman login
         cy.contains('Sign In').should('be.visible').click();
         cy.url().should('include', 'login');
 
-        // Masukkan kredensial yang diambil dari file fixture
         cy.fixture('user').then(({ email, password }) => {
-            // Input email
-            cy.get('input[data-test-id="CT_component_login_input"]', { timeout: 10000 })
+            cy.get('input[data-test-id="CT_component_login_input"]')
                 .should('be.visible')
                 .clear()
                 .type(email);
 
-            // Input password
             cy.get('input[name="password"]')
                 .should('be.visible')
                 .clear()
                 .type(password);
 
-            // Klik tombol login dan verifikasi login berhasil
             cy.get('button[data-test-id="CT_component_login_submit"]')
                 .should('be.visible')
                 .click();
+
             cy.url().should('not.include', 'login');
-            cy.wait(2000);
+            cy.wait(500);
         });
     });
 
-    // Pengujian untuk menampilkan detail produk dan menambahkannya ke keranjang
+    // Pengujian menampilkan detail produk dan menambahkannya ke keranjang
     it('Should display product details and add it to the bag', () => {
-        // Pilih produk tertentu dan tampilkan detailnya
-        cy.contains('T-Lock Top Handle Bag Ecru Black')
-            .should('be.visible')
-            .click();
-        cy.url().should('match', /toteme-t-lock-top-handle-bag-ecru-black-47537/);
-        cy.get('p')
-            .should('be.visible')
-            .and('contain.text', 'T-Lock Top Handle Bag Ecru Black');
+        // Klik pada produk dengan nama tertentu
+        cy.contains('Teen Triomphe Bag in Shiny Calfskin Glazed Brown Ghw')
+            .should('be.visible') // Pastikan produk terlihat
+            .click({ force: true }); // Klik produk dengan paksa jika perlu
 
-        // Tambahkan produk ke keranjang
-        cy.get('button[data-test-id="CT-add-to-bag-desktop"]').click({ force: true, multiple: true });
-        cy.wait(2000);
+        // Verifikasi URL setelah klik produk
+        cy.url().should('match', /celine-teen-triomphe-bag-in-shiny-calfskin-glazed-brown-ghw-48958/);
 
-        // Navigasi ke keranjang
-        cy.get('svg[data-test-id="CT-Go-To-Cart"]').click();
+        // Verifikasi kembali nama produk muncul di halaman detail
+        cy.contains('Teen Triomphe Bag in Shiny Calfskin Glazed Brown Ghw')
+            .should('be.visible');
+
+        // Klik tombol "Add to Bag"
+        cy.get('button[data-test-id="CT-add-to-bag-desktop"]')
+            .click({ force: true, multiple: true }); // Klik tombol dengan paksa jika perlu
+
     });
 
-    // Pengujian untuk menambah jumlah produk di keranjang
+
+    // Pengujian menambah jumlah produk di keranjang
     it('Should increase product quantity in the cart', () => {
-        // Navigasi ke keranjang
+        cy.wait(500)
         cy.get('svg[data-test-id="CT-Go-To-Cart"]').click();
         cy.contains('Shopping Bag').should('be.visible');
 
-        // Klik tombol untuk menambah jumlah produk
-        cy.get('path[d="M21 10.91h-7.5V3.5h-3v7.41H3v3h7.5v7.59h3v-7.59H21v-3Z"]').click({ multiple: true, force: true });
+        cy.get('path[d="M21 10.91h-7.5V3.5h-3v7.41H3v3h7.5v7.59h3v-7.59H21v-3Z"]').click({ multiple: true });
     });
 
-    // Pengujian untuk menambahkan voucher ke pembayaran dan melanjutkan ke checkout
-    it('Add Voucher to Payment and checkout', () => {
-        // Navigasi ke keranjang
+    // Pengujian menambahkan voucher ke pembayaran dan melanjutkan ke checkout
+    it('Should add voucher to payment and checkout', () => {
         cy.get('svg[data-test-id="CT-Go-To-Cart"]').click();
 
-        // Menampilkan dan memilih voucher
         cy.contains('Voucher').should('be.visible');
-        cy.get('path[d="M9.06 3.44 6.94 5.56l6.94 6.94-6.94 6.94 2.12 2.12 9.06-9.06-9.06-9.06Z"]').click();
+        cy.get('path[d="M9.06 3.44 6.94 5.56l6.94 6.94-6.94 6.94 2.12 2.12 9.06-9.06-9.06-9.06Z"]').click({ force: true, multiple: true });
         cy.contains('Special Offers for You').should('be.visible');
-        cy.contains('Mayapada YES: 5% OFF with CC Mayapada').click({ multiple: true, force: true });
+        cy.contains('Mayapada: 8% OFF with CC Mayapada').click({ force: true });
 
-        // Terapkan voucher
         cy.get('button[data-test-id="CT_Component_buttonApply"]').click();
 
-        // Melanjutkan ke proses checkout
         cy.get('button[data-test-id="CT_Component_btnCheckout"]').click();
     });
 
-    // Pengujian untuk menghapus produk dari keranjang
+    // Pengujian menghapus produk dari keranjang
     it('Should remove product from the cart', () => {
-        // Navigasi ke keranjang
         cy.get('svg[data-test-id="CT-Go-To-Cart"]').click();
         cy.contains('Shopping Bag').should('be.visible');
 
-        // Klik tombol untuk menghapus produk
         cy.get('p[data-test-id="CT_Component_removeSelectedCart"]').click();
 
-        // Konfirmasi penghapusan produk
         cy.get('button[data-test-id="CT_Component_ConfirmContent_Ok"]').click();
 
-        // Verifikasi bahwa produk berhasil dihapus
         cy.contains('product has been removed.').should('be.visible');
     });
 });
