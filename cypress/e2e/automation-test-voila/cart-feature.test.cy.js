@@ -41,21 +41,24 @@ describe('Login and Product Interaction Tests', () => {
 
     // Pengujian menampilkan detail produk dan menambahkannya ke keranjang
     it('Should display product details and add it to the bag', () => {
+        cy.wait(1000)
         // Klik pada produk dengan nama tertentu
         cy.contains('Teen Triomphe Bag in Shiny Calfskin Glazed Brown Ghw')
             .should('be.visible') // Pastikan produk terlihat
             .click({ force: true }); // Klik produk dengan paksa jika perlu
-
+        cy.wait(1000)
         // Verifikasi URL setelah klik produk
         cy.url().should('match', /celine-teen-triomphe-bag-in-shiny-calfskin-glazed-brown-ghw-48958/);
-
+        cy.wait(1000)
         // Verifikasi kembali nama produk muncul di halaman detail
         cy.contains('Teen Triomphe Bag in Shiny Calfskin Glazed Brown Ghw')
             .should('be.visible');
 
+        cy.wait(2000)
         // Klik tombol "Add to Bag"
         cy.get('button[data-test-id="CT-add-to-bag-desktop"]')
-            .click({ force: true, multiple: true }); // Klik tombol dengan paksa jika perlu
+            .click({ force: true });
+        cy.wait(3000)
 
     });
 
@@ -94,4 +97,5 @@ describe('Login and Product Interaction Tests', () => {
 
         cy.contains('product has been removed.').should('be.visible');
     });
+
 });
