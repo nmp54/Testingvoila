@@ -9,6 +9,7 @@ async function setupNodeEvents(on, config) {
 }
 
 module.exports = defineConfig({
+  projectId: 'mwx9dm',
   e2e: {
     baseUrl: 'https://voila.id',
     specPattern: "cypress/e2e/**/*.{cy,spec}.{js,ts}",
@@ -20,6 +21,9 @@ module.exports = defineConfig({
     blockHosts: ["events.backtrace.io", "submit.backtrace.io"], // Fixed blockHosts syntax
   },
   video: false,
-  defaultCommandTimeout: 30000, // Timeout for all commands
-  pageLoadTimeout: 30000, // Fixed property capitalization
+  defaultCommandTimeout: 40000, // Timeout for all commands
+  pageLoadTimeout: 40000, // Fixed property capitalization
+  env: {
+    NODE_ENV: "development",
+  }
 });

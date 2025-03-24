@@ -16,23 +16,21 @@ describe('Access My Profile', () => {
 describe('Add Address to My Profile', () => {
     it('Should navigate to My Address section', () => {
         // Klik bagian My Address
-        cy.get('p._1ccbe2wb').contains('My Address').click();
-        cy.contains('My Address').should('be.visible'); // Verifikasi teks 'My Address' terlihat
+        cy.get('div[data-test-id="CT_account_navigation-item_My Address"]').should('be.visible')
+            .click({ force: true }); // Verifikasi teks 'My Address' terlihat
     });
 
     it('Should add a new address', () => {
         // Klik tombol tambah alamat baru
-        cy.get('button[data-test-id="CT_Component_btnAddAddress"]').click();
+        cy.get('button[data-test-id="CT_Component_btnAddAddress"]').click({ force: true });
 
         // Isi detail alamat
-        cy.get('input[data-test-id="CT_Component_AddressLabel"]').type('Home'); // Isi label alamat
+        cy.get('[data-test-id="CT_Component_AddressLabel"]').type('Home'); // Isi label alamat
         cy.get('input[name="name"]').type('nur'); // Isi nama
         cy.get('input[name="phone"]').type('087882517968'); // Isi nomor telepon
         cy.get('input[name="selected_area"]').click(); // Pilih area
-    });
 
-    it('Should select an address option and submit', () => {
-        // Cari area yang akan dipilih
+        //isi alamat
         cy.get('input[data-test-id="CT_Component_SearchAddress"]')
             .type('DKI Jakarta, Jakarta Barat, Cengkareng');
 

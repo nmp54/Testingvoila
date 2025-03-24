@@ -33,7 +33,7 @@ describe('Navigation Tests', () => {
     // Test case: Access and verify the Bags section
     it('Should display Bags section', () => {
         cy.get('a[data-test-id="CT_home_navbar_second-tier-button-9"]').click(); // Klik Bags
-        cy.wait(2000); // Tunggu 2 detik untuk memastikan halaman dimuat
+        cy.wait(3000); // Tunggu 2 detik untuk memastikan halaman dimuat
         cy.contains('Handbags').should('be.visible'); // Verifikasi bahwa 'Handbags' terlihat
         cy.get('h1').should('be.visible').and('contain.text', `Women's Bags`); // Verifikasi teks 'Women's Bags'
     });

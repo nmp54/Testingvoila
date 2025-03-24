@@ -8,18 +8,22 @@
   "devDependencies": {
     "cypress": "^13.16.1",
     "cypress-iframe": "^1.0.1",
+    "cypress-qase-reporter": "^2.2.7",
     "cypress-xpath": "^2.0.1",
     "prettier": "^3.3.3"
   },
   "scripts": {
     "cy:open": "npx cypress open",
     "cy:run": "npx cypress run",
-    "postinstall": "cypress install"
+    "postinstall": "cypress install",
+    "start": "react-scripts start"
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.1.2",
     "@cypress/browserify-preprocessor": "^3.0.2",
     "mailslurp": "^0.0.1-security",
-    "mailslurp-client": "^15.13.3"
+    "mailslurp-client": "^15.13.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
